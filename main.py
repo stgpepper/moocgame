@@ -41,12 +41,20 @@ class Peli:
         self.objektit = []
         self.objektit.append(Robotti())
         self.robotin_sijainti = self.objektit[0].hae_sijainti()
-        self.objektit.append((Morko()))
+        #self.objektit.append((Morko()))
         for i in range(10):
             self.objektit.append(Raha())
             self.objektit.append(Este())
 
         self.silmukka()
+
+        #poistaa Rahat ja esteet, jotka ovat liian kaukana ruudusta
+    def poista_kaukaiset(self):
+            for objekti in self.objektit:
+                if type(objekti) == Este or type(objekti) == Raha:
+                    if math.sqrt((objekti.x - nayton_leveys / 2)**2 + (objekti.y - nayton_korkeus / 2)**2) > nayton_leveys:
+                        self.objektit.remove(objekti)
+                        print("Objekti poistettu. Objekteja jäljellä:", len(self.objektit))
 
     def kasittele_tapahtumat(self):
         for objekti in self.objektit:
@@ -59,6 +67,10 @@ class Peli:
             self.tutki_tapahtumat()
             self.kasittele_tapahtumat()
             self.piirra_naytto()
+            self.poista_kaukaiset()
+            if len(self.objektit) < 17:
+                self.objektit.append(Este())
+                self.objektit.append(Raha())
             self.kello.tick(60)
         while True:
             self.tutki_tapahtumat()
