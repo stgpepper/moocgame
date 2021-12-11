@@ -1,3 +1,5 @@
+import random
+
 import pygame
 import math
 
@@ -38,6 +40,8 @@ class Peli:
         self.objektit.append(Robotti())
         self.robotin_sijainti = self.objektit[0].hae_sijainti()
         self.objektit.append((Morko()))
+        for i in range(10):
+            self.objektit.append(Raha())
 
         self.silmukka()
 
@@ -205,12 +209,20 @@ class Morko:
         self.x += self.nopeus_x
         self.y += self.nopeus_y
 
-        print(f" nopeus_x:{self.nopeus_x}     nopeus_y:{self.nopeus_y}     kiihtyvyys:{self.kiihtyvyys}")
+        #print(f" nopeus_x:{self.nopeus_x}     nopeus_y:{self.nopeus_y}     kiihtyvyys:{self.kiihtyvyys}")
 
         self.hitbox = pygame.Rect(self.x, self.y, self.kuva.get_width(), self.kuva.get_height())
 
 class Raha:
-    pass
+    def __init__(self):
+        self.kuva = pygame.image.load("kolikko.png")
+        self.x = random.randint(0, nayton_leveys)
+        self.y = random.randint(0, nayton_korkeus)
+        self.hitbox = pygame.Rect(self.x, self.y, self.kuva.get_width(), self.kuva.get_height())
+        self.nopeus = 1
+
+    def looppi(self, nuolinappaimet, robotin_sijainti):
+        pass
 
 
 class Este:  # Esteet scrollaa (liikkuu) aina samaan suuntaan.
