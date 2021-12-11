@@ -81,6 +81,9 @@ class Peli:
                             if type(i) == Morko:
                                 if i.max_vauhti > 0:
                                     i.max_vauhti -= 0.5
+                    #Robotin ja Esteen törmäys
+                    if type(objekti_a) == Robotti and type(objekti_b) == Este and objekti_a.hitbox.colliderect(objekti_b.hitbox):
+                        self.peli_kaynnissa = False
 
 
     def tutki_tapahtumat(self):
@@ -255,7 +258,7 @@ class TaustaObjekti:
             self.y += self.nopeus
             self.x -= self.nopeus
 
-        self.hae_hitbox
+        self.hae_hitbox()
 
 
 class Raha(TaustaObjekti):
@@ -279,7 +282,7 @@ class Este(TaustaObjekti):  # Esteet scrollaa (liikkuu) aina samaan suuntaan.
         self.nopeus = 1
 
     def hae_hitbox(self):
-        self.hitbox = pygame.Rect(self.x, self.y, self.leveys, self.korkeus())
+        self.hitbox = pygame.Rect(self.x, self.y, self.leveys, self.korkeus)
 
 if __name__ == "__main__":
     Peli()
