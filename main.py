@@ -44,7 +44,7 @@ class Peli:
         self.objektit.append((Morko()))
         for i in range(10):
             self.objektit.append(Raha())
-        self.objektit.append(Este())
+            self.objektit.append(Este())
 
         self.silmukka()
 
