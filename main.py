@@ -134,13 +134,13 @@ class Peli:
         pygame.draw.rect(self.naytto, (255, 255, 255), pygame.Rect(rajaus_alue_leveys, rajaus_alue_korkeus, nayton_leveys - rajaus_alue_leveys*2, nayton_korkeus - rajaus_alue_korkeus*2))
         pygame.draw.rect(self.naytto, (20, 20, 20), pygame.Rect(rajaus_alue_leveys + 1, rajaus_alue_korkeus + 1, (nayton_leveys - rajaus_alue_leveys * 2)-2, (nayton_korkeus - rajaus_alue_korkeus * 2)-2))
 
+        #Obejktien piirto
         for objekti in self.objektit:
             self.naytto.blit(objekti.kuva, (objekti.x, objekti.y))
 
-        pygame.draw.rect(self.naytto, (255, 0, 0), pygame.Rect(self.robotin_sijainti[0], self.robotin_sijainti[1], 10, 10))
-
-        textsurface = self.fontti.render(str((pygame.time.get_ticks() - self.aloitus_aika)/1000), False, (255,0,0))
-        self.naytto.blit(textsurface, (0,0))
+        #Ajan näyttö
+        textsurface = self.fontti.render("Aika: "+str((pygame.time.get_ticks() - self.aloitus_aika)/1000), False, (255,0,0))
+        self.naytto.blit(textsurface, (0,nayton_korkeus-30))
 
         if not self.peli_kaynnissa:
             print("TRUE")
