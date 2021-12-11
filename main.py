@@ -36,7 +36,7 @@ class Peli:
         self.oikealle = False
         self.alas = False
         self.nuolinappaimet = (self.vasemmalle, self.ylos, self.oikealle, self.alas)
-        self.tausta_suunta = 1 #1-8 vasemmalta alkaen jokainen väliilmansuunta
+        self.tausta_suunta = random.randint(1, 8) #1-8 vasemmalta alkaen jokainen väliilmansuunta
 
         self.objektit = []
         self.objektit.append(Robotti())
