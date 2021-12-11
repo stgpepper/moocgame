@@ -36,6 +36,7 @@ class Peli:
         self.oikealle = False
         self.alas = False
         self.nuolinappaimet = (self.vasemmalle, self.ylos, self.oikealle, self.alas)
+        self.tausta_suunta = 1 #1-8 vasemmalta alkaen jokainen väliilmansuunta
 
         self.objektit = []
         self.objektit.append(Robotti())
@@ -50,7 +51,7 @@ class Peli:
         for objekti in self.objektit:
             if type(objekti) == type(Robotti()):
                 self.robotin_sijainti = objekti.hae_sijainti()
-            objekti.looppi(self.nuolinappaimet, self.robotin_sijainti)
+            objekti.looppi(self.nuolinappaimet, self.robotin_sijainti, self.tausta_suunta)
 
     def silmukka(self):
         while self.peli_kaynnissa:
@@ -165,7 +166,7 @@ class Robotti:
     def hae_sijainti(self):
         return (self.x +self.kuva.get_width()/2, self.y +self.kuva.get_height()/2)
 
-    def looppi(self, nuolinappaimet, robotin_sijainti):
+    def looppi(self, nuolinappaimet, robotin_sijainti, taustan_suunta):
         if self.x > rajaus_alue_leveys:
             if nuolinappaimet[0]:
                 self.x -= 1 * self.nopeus
@@ -193,7 +194,7 @@ class Morko:
         self.max_vauhti = 3 # 1.5
         self.hitbox = pygame.Rect(self.x, self.y, self.kuva.get_width(), self.kuva.get_height())
 
-    def looppi(self, nuolinappaimet, robotin_sijainti):
+    def looppi(self, nuolinappaimet, robotin_sijainti, taustan_suunta):
         self.max_vauhti += 0.001
         self.kiihtyvyys = math.sqrt((self.x - robotin_sijainti[0])**2 + (self.y - robotin_sijainti[1])**2) /1500
 
@@ -234,8 +235,30 @@ class Raha:
         self.hitbox = pygame.Rect(self.x, self.y, self.kuva.get_width(), self.kuva.get_height())
         self.nopeus = 1
 
-    def looppi(self, nuolinappaimet, robotin_sijainti):
-        pass
+    def looppi(self, nuolinappaimet, robotin_sijainti, taustan_suunta):
+        if taustan_suunta == 1:
+            self.x -= self.nopeus
+        if taustan_suunta == 2:
+            self.x -= self.nopeus
+            self.y -= self.nopeus
+        if taustan_suunta == 3:
+            self.y -= self.nopeus
+        if taustan_suunta == 4:
+            self.x += self.nopeus
+            self.y -= self.nopeus
+        if taustan_suunta == 5:
+            self.x += self.nopeus
+        if taustan_suunta == 6:
+            self.x += self.nopeus
+            self.y += self.nopeus
+        if taustan_suunta == 7:
+            self.y += self.nopeus
+        if taustan_suunta == 8:
+            self.y += self.nopeus
+            self.x -= self.nopeus
+
+        self.hitbox = pygame.Rect(self.x, self.y, self.kuva.get_width(), self.kuva.get_height())
+
 
 
 class Este:  # Esteet scrollaa (liikkuu) aina samaan suuntaan.
