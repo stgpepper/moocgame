@@ -141,7 +141,7 @@ class Peli:
             if type(objekti) != Este:
                 self.naytto.blit(objekti.kuva, (objekti.x, objekti.y))
             else:
-                pygame.draw.rect(self.naytto, (255, 255, 255), pygame.Rect(objekti.x, objekti.y, objekti.leveys, objekti.korkeus))
+                pygame.draw.rect(self.naytto, (0, 0, 255), pygame.Rect(objekti.x, objekti.y, objekti.leveys, objekti.korkeus))
 
         #Ajan näyttö
         textsurface = self.fontti.render("Aika: "+str((pygame.time.get_ticks() - self.aloitus_aika)/1000), False, (255,0,0))
