@@ -191,6 +191,7 @@ class Morko:
         self.hitbox = pygame.Rect(self.x, self.y, self.kuva.get_width(), self.kuva.get_height())
 
     def looppi(self, nuolinappaimet, robotin_sijainti):
+        self.max_vauhti += 0.01
         self.kiihtyvyys = math.sqrt((self.x - robotin_sijainti[0])**2 + (self.y - robotin_sijainti[1])**2) /1500
 
         if robotin_sijainti[0] > self.x +20:
