@@ -74,6 +74,11 @@ class Peli:
                     #Robotin ja rahan törmäys
                     if type(objekti_a) == Robotti and type(objekti_b) == Raha and objekti_a.hitbox.colliderect(objekti_b.hitbox):
                         self.objektit.remove(objekti_b)
+                        for i in self.objektit:
+                            if type(i) == Morko:
+                                if i.max_vauhti > 0:
+                                    i.max_vauhti -= 0.5
+
 
     def tutki_tapahtumat(self):
         for tapahtuma in pygame.event.get():
