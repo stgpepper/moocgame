@@ -286,8 +286,8 @@ class Raha(TaustaObjekti):
 
 class Este(TaustaObjekti):  # Esteet scrollaa (liikkuu) aina samaan suuntaan.
     def __init__(self):
-        self.x = random.randint(0, nayton_leveys)
-        self.y = random.randint(0, nayton_korkeus)
+        self.x = random.randint(-rajaus_alue_leveys, nayton_leveys + rajaus_alue_leveys)
+        self.y = random.randint(-rajaus_alue_korkeus, nayton_korkeus + rajaus_alue_korkeus)
         self.leveys = random.randint(5, nayton_leveys / 10)
         self.korkeus = random.randint(5, nayton_korkeus / 10)
         self.hitbox = pygame.Rect(self.x, self.y, self.leveys, self.korkeus)
