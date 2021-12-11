@@ -71,6 +71,9 @@ class Peli:
                     #Robotin ja Mörön törmäys
                     if type(objekti_a) == Robotti and type(objekti_b) == Morko and objekti_a.hitbox.colliderect(objekti_b.hitbox):
                         self.peli_kaynnissa = False
+                    #Robotin ja rahan törmäys
+                    if type(objekti_a) == Robotti and type(objekti_b) == Raha and objekti_a.hitbox.colliderect(objekti_b.hitbox):
+                        self.objektit.remove(objekti_b)
 
     def tutki_tapahtumat(self):
         for tapahtuma in pygame.event.get():
