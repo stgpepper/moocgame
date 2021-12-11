@@ -138,7 +138,10 @@ class Peli:
 
         #Obejktien piirto
         for objekti in self.objektit:
-            self.naytto.blit(objekti.kuva, (objekti.x, objekti.y))
+            if type(objekti) != Este:
+                self.naytto.blit(objekti.kuva, (objekti.x, objekti.y))
+            else:
+                pygame.draw.rect(self.naytto, (255, 255, 255), pygame.Rect(objekti.x, objekti.y, objekti.leveys, objekti.korkeus))
 
         #Ajan näyttö
         textsurface = self.fontti.render("Aika: "+str((pygame.time.get_ticks() - self.aloitus_aika)/1000), False, (255,0,0))
@@ -252,7 +255,10 @@ class TaustaObjekti:
             self.y += self.nopeus
             self.x -= self.nopeus
 
-        self.hitbox = pygame.Rect(self.x, self.y, self.kuva.get_width(), self.kuva.get_height())
+        if type(self) == Raha:
+            self.hitbox = pygame.Rect(self.x, self.y, self.kuva.get_width(), self.kuva.get_height())
+
+        #TODO este hitbox
 
 class Raha(TaustaObjekti):
     def __init__(self):
@@ -263,13 +269,14 @@ class Raha(TaustaObjekti):
         self.nopeus = 1
 
 
-class Este:  # Esteet scrollaa (liikkuu) aina samaan suuntaan.
+class Este(TaustaObjekti):  # Esteet scrollaa (liikkuu) aina samaan suuntaan.
     def __init__(self):
         self.x = random.randint(0, nayton_leveys)
         self.y = random.randint(0, nayton_korkeus)
         self.leveys = random.randint(5, nayton_leveys / 10)
         self.korkeus = random.randint(5, nayton_korkeus / 10)
         self.hitbox = pygame.Rect(self.x, self.y, self.leveys, self.korkeus)
+        self.nopeus = 1
 
 if __name__ == "__main__":
     Peli()
