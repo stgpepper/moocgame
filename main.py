@@ -19,6 +19,7 @@ class Peli:
 
         self.peli_kaynnissa = True
         self.kello = pygame.time.Clock()
+        self.aloitus_aika = pygame.time.get_ticks()
 
         self.pelin_leveys = 1640
         self.pelin_korkeus = 950
@@ -138,6 +139,8 @@ class Peli:
 
         pygame.draw.rect(self.naytto, (255, 0, 0), pygame.Rect(self.robotin_sijainti[0], self.robotin_sijainti[1], 10, 10))
 
+        textsurface = self.fontti.render(str((pygame.time.get_ticks() - self.aloitus_aika)/1000), False, (255,0,0))
+        self.naytto.blit(textsurface, (0,0))
 
         if not self.peli_kaynnissa:
             print("TRUE")
