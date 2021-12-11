@@ -44,6 +44,7 @@ class Peli:
         self.objektit.append((Morko()))
         for i in range(10):
             self.objektit.append(Raha())
+        self.objektit.append(Este())
 
         self.silmukka()
 
@@ -263,8 +264,12 @@ class Raha(TaustaObjekti):
 
 
 class Este:  # Esteet scrollaa (liikkuu) aina samaan suuntaan.
-    pass
-
+    def __init__(self):
+        self.x = random.randint(0, nayton_leveys)
+        self.y = random.randint(0, nayton_korkeus)
+        self.leveys = random.randint(5, nayton_leveys / 10)
+        self.korkeus = random.randint(5, nayton_korkeus / 10)
+        self.hitbox = pygame.Rect(self.x, self.y, self.leveys, self.korkeus)
 
 if __name__ == "__main__":
     Peli()
