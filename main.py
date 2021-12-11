@@ -1,4 +1,5 @@
 import pygame
+import math
 
 # Määritellään muutamia koko ohjelman kannalta olennaisia muuttujia,
 # jotka eivät muutu pelin aikana.
@@ -37,7 +38,6 @@ class Peli:
         self.objektit.append(Robotti())
         self.robotin_sijainti = self.objektit[0].hae_sijainti()
         self.objektit.append((Morko()))
-        #self.objektit.append((Morko()))
 
         self.silmukka()
 
@@ -171,14 +171,15 @@ class Morko:
         self.kuva = pygame.image.load("hirvio.png")
         self.x = 0
         self.y = 0
-        self.nopeus_x = 0
-        self.nopeus_y = 0
-        self.kiihtyvyys = .1 #0.1
-        self.max_vauhti = 1.5 # 1.5
+        self.nopeus_x = 0.0
+        self.nopeus_y = 0.0
+        self.kiihtyvyys = 0.1
+        self.max_vauhti = 3 # 1.5
         self.hitbox = pygame.Rect(self.x, self.y, self.kuva.get_width(), self.kuva.get_height())
 
     def looppi(self, nuolinappaimet, robotin_sijainti):
-        #määritetään mörön vauhti tiettyyn suuntaan jarrutus *4 tehokkaampi kiihdytystä
+        self.kiihtyvyys = math.sqrt((self.x - robotin_sijainti[0])**2 + (self.y - robotin_sijainti[1])**2) /1500
+
         if robotin_sijainti[0] > self.x +20:
             self.nopeus_x += self.kiihtyvyys
         if robotin_sijainti[0] < self.x +20:
@@ -188,15 +189,23 @@ class Morko:
         if robotin_sijainti[1] < self.y +30:
             self.nopeus_y -= self.kiihtyvyys
 
+        #Nopeus liian korkea
         if self.nopeus_x > self.max_vauhti:
             self.nopeus_x = self.max_vauhti
         if self.nopeus_y > self.max_vauhti:
             self.nopeus_y = self.max_vauhti
 
+        #Nopeus liian pieni
+        if self.nopeus_x < self.max_vauhti *-1:
+            self.nopeus_x = self.max_vauhti *-1
+        if self.nopeus_y < self.max_vauhti *-1:
+            self.nopeus_y = self.max_vauhti *-1
 
         #Määritetään mörön sijainti
         self.x += self.nopeus_x
         self.y += self.nopeus_y
+
+        print(f" nopeus_x:{self.nopeus_x}     nopeus_y:{self.nopeus_y}     kiihtyvyys:{self.kiihtyvyys}")
 
         self.hitbox = pygame.Rect(self.x, self.y, self.kuva.get_width(), self.kuva.get_height())
 
