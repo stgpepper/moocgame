@@ -227,13 +227,7 @@ class Morko:
 
         self.hitbox = pygame.Rect(self.x, self.y, self.kuva.get_width(), self.kuva.get_height())
 
-class Raha:
-    def __init__(self):
-        self.kuva = pygame.image.load("kolikko.png")
-        self.x = random.randint(0, nayton_leveys)
-        self.y = random.randint(0, nayton_korkeus)
-        self.hitbox = pygame.Rect(self.x, self.y, self.kuva.get_width(), self.kuva.get_height())
-        self.nopeus = 1
+class TaustaObjekti:
 
     def looppi(self, nuolinappaimet, robotin_sijainti, taustan_suunta):
         if taustan_suunta == 1:
@@ -259,6 +253,13 @@ class Raha:
 
         self.hitbox = pygame.Rect(self.x, self.y, self.kuva.get_width(), self.kuva.get_height())
 
+class Raha(TaustaObjekti):
+    def __init__(self):
+        self.kuva = pygame.image.load("kolikko.png")
+        self.x = random.randint(0, nayton_leveys)
+        self.y = random.randint(0, nayton_korkeus)
+        self.hitbox = pygame.Rect(self.x, self.y, self.kuva.get_width(), self.kuva.get_height())
+        self.nopeus = 1
 
 
 class Este:  # Esteet scrollaa (liikkuu) aina samaan suuntaan.
