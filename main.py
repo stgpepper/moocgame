@@ -255,10 +255,8 @@ class TaustaObjekti:
             self.y += self.nopeus
             self.x -= self.nopeus
 
-        if type(self) == Raha:
-            self.hitbox = pygame.Rect(self.x, self.y, self.kuva.get_width(), self.kuva.get_height())
+        self.hae_hitbox
 
-        #TODO este hitbox
 
 class Raha(TaustaObjekti):
     def __init__(self):
@@ -268,6 +266,8 @@ class Raha(TaustaObjekti):
         self.hitbox = pygame.Rect(self.x, self.y, self.kuva.get_width(), self.kuva.get_height())
         self.nopeus = 1
 
+    def hae_hitbox(self):
+        self.hitbox = pygame.Rect(self.x, self.y, self.kuva.get_width(), self.kuva.get_height())
 
 class Este(TaustaObjekti):  # Esteet scrollaa (liikkuu) aina samaan suuntaan.
     def __init__(self):
@@ -277,6 +277,9 @@ class Este(TaustaObjekti):  # Esteet scrollaa (liikkuu) aina samaan suuntaan.
         self.korkeus = random.randint(5, nayton_korkeus / 10)
         self.hitbox = pygame.Rect(self.x, self.y, self.leveys, self.korkeus)
         self.nopeus = 1
+
+    def hae_hitbox(self):
+        self.hitbox = pygame.Rect(self.x, self.y, self.leveys, self.korkeus())
 
 if __name__ == "__main__":
     Peli()
