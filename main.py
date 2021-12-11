@@ -14,13 +14,15 @@ class Peli:
     def __init__(self):
         pygame.init()
 
+        self.peli_kaynnissa = True
+        self.kello = pygame.time.Clock()
+
         self.pelin_leveys = 1640
         self.pelin_korkeus = 950
 
         self.naytto = pygame.display.set_mode((nayton_leveys, nayton_korkeus))
 
-        self.liikkeen_leveys = 500
-        self.liikkeen_korkeus = 500
+
         self.fontti = pygame.font.SysFont("Arial", 24)
 
         pygame.display.set_caption("Pakoon")
@@ -35,6 +37,7 @@ class Peli:
         self.objektit.append(Robotti())
         self.robotin_sijainti = self.objektit[0].hae_sijainti()
         self.objektit.append((Morko()))
+        #self.objektit.append((Morko()))
 
         self.silmukka()
 
@@ -45,10 +48,24 @@ class Peli:
             objekti.looppi(self.nuolinappaimet, self.robotin_sijainti)
 
     def silmukka(self):
-        while True:
+        while self.peli_kaynnissa:
             self.tutki_tapahtumat()
             self.kasittele_tapahtumat()
             self.piirra_naytto()
+            self.kello.tick(60)
+        while True:
+            self.tutki_tapahtumat()
+            self.piirra_naytto()
+            self.kello.tick(1)
+
+    def onko_tormays(self):
+        for objekti_a in self.objektit:
+            for objekti_b in self.objektit:
+                if objekti_a == objekti_b:
+                    continue
+                else:
+                    if objekti_a.hitbox.colliderect(objekti_b.hitbox):
+                        self.peli_kaynnissa = False
 
     def tutki_tapahtumat(self):
         for tapahtuma in pygame.event.get():
@@ -84,8 +101,13 @@ class Peli:
             # Päivitetään Peliin tieto painetuista nuolinäppäimistä
             self.nuolinappaimet = (self.vasemmalle, self.ylos, self.oikealle, self.alas)
 
+
+
             if tapahtuma.type == pygame.QUIT:
                 exit()
+
+        self.onko_tormays()
+
 
     def liiku(self, liike_y, liike_x):
         if self.peli_ohi():
@@ -101,7 +123,14 @@ class Peli:
         for objekti in self.objektit:
             self.naytto.blit(objekti.kuva, (objekti.x, objekti.y))
 
-        #pygame.draw.rect(self.naytto, (255, 0, 0), pygame.Rect(self.robotin_sijainti[0], self.robotin_sijainti[1], 10, 10))
+        pygame.draw.rect(self.naytto, (255, 0, 0), pygame.Rect(self.robotin_sijainti[0], self.robotin_sijainti[1], 10, 10))
+
+
+        if not self.peli_kaynnissa:
+            print("TRUE")
+            ruudun_koko = (600, 300)
+            #pygame.draw.rect(self.naytto, (255, 255, 255), pygame.Rect(nayton_leveys/2 - ruudun_koko[0]/2, nayton_korkeus/2 - ruudun_koko[1]/2, ruudun_koko[0], ruudun_koko[1]))
+
         pygame.display.flip()
 
     def peli_ohi(self):
@@ -115,6 +144,7 @@ class Robotti:
         self.x = nayton_leveys / 2 - self.kuva.get_width()
         self.y = nayton_korkeus / 2 - self.kuva.get_height()
         self.hitbox = pygame.Rect(self.x, self.y, self.kuva.get_width(), self.kuva.get_height())
+        self.nopeus = 3
 
     def hae_sijainti(self):
         return (self.x +self.kuva.get_width()/2, self.y +self.kuva.get_height()/2)
@@ -122,16 +152,16 @@ class Robotti:
     def looppi(self, nuolinappaimet, robotin_sijainti):
         if self.x > rajaus_alue_leveys:
             if nuolinappaimet[0]:
-                self.x -= 1
+                self.x -= 1 * self.nopeus
         if self.y > rajaus_alue_korkeus:
             if nuolinappaimet[1]:
-                self.y -= 1
+                self.y -= 1 * self.nopeus
         if nayton_leveys - rajaus_alue_leveys - self.kuva.get_width() > self.x:
             if nuolinappaimet[2]:
-                self.x += 1
+                self.x += 1 * self.nopeus
         if nayton_korkeus - rajaus_alue_korkeus - self.kuva.get_height() > self.y:
             if nuolinappaimet[3]:
-                self.y += 1
+                self.y += 1 * self.nopeus
         self.hitbox = pygame.Rect(self.x, self.y, self.kuva.get_width(), self.kuva.get_height())
 
 
@@ -143,19 +173,19 @@ class Morko:
         self.y = 0
         self.nopeus_x = 0
         self.nopeus_y = 0
-        self.kiihtyvyys = 0.01
-        self.max_vauhti = 1.5
+        self.kiihtyvyys = .1 #0.1
+        self.max_vauhti = 1.5 # 1.5
         self.hitbox = pygame.Rect(self.x, self.y, self.kuva.get_width(), self.kuva.get_height())
 
     def looppi(self, nuolinappaimet, robotin_sijainti):
         #määritetään mörön vauhti tiettyyn suuntaan jarrutus *4 tehokkaampi kiihdytystä
-        if robotin_sijainti[0] > self.x - self.kuva.get_width():
+        if robotin_sijainti[0] > self.x +20:
             self.nopeus_x += self.kiihtyvyys
-        if robotin_sijainti[0] < self.x - self.kuva.get_width():
+        if robotin_sijainti[0] < self.x +20:
             self.nopeus_x -= self.kiihtyvyys*4
-        if robotin_sijainti[1] > self.y + self.kuva.get_height():
+        if robotin_sijainti[1] > self.y +30:
             self.nopeus_y += self.kiihtyvyys
-        if robotin_sijainti[1] < self.y + self.kuva.get_height():
+        if robotin_sijainti[1] < self.y +30:
             self.nopeus_y -= self.kiihtyvyys*4
 
         if self.nopeus_x > self.max_vauhti:
