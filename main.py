@@ -129,12 +129,12 @@ class Peli:
         if not self.peli_kaynnissa:
             print("TRUE")
             ruudun_koko = (600, 300)
-            #pygame.draw.rect(self.naytto, (255, 255, 255), pygame.Rect(nayton_leveys/2 - ruudun_koko[0]/2, nayton_korkeus/2 - ruudun_koko[1]/2, ruudun_koko[0], ruudun_koko[1]))
+            pygame.draw.rect(self.naytto, (255, 255, 255), pygame.Rect(nayton_leveys/2 - ruudun_koko[0]/2, nayton_korkeus/2 - ruudun_koko[1]/2, ruudun_koko[0], ruudun_koko[1]))
 
         pygame.display.flip()
 
-    def peli_ohi(self):
-        pass
+    def uusi_peli(self):
+        Peli()
 
 
 class Robotti:
@@ -182,11 +182,11 @@ class Morko:
         if robotin_sijainti[0] > self.x +20:
             self.nopeus_x += self.kiihtyvyys
         if robotin_sijainti[0] < self.x +20:
-            self.nopeus_x -= self.kiihtyvyys*4
+            self.nopeus_x -= self.kiihtyvyys
         if robotin_sijainti[1] > self.y +30:
             self.nopeus_y += self.kiihtyvyys
         if robotin_sijainti[1] < self.y +30:
-            self.nopeus_y -= self.kiihtyvyys*4
+            self.nopeus_y -= self.kiihtyvyys
 
         if self.nopeus_x > self.max_vauhti:
             self.nopeus_x = self.max_vauhti
