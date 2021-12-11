@@ -68,7 +68,8 @@ class Peli:
                 if objekti_a == objekti_b:
                     continue
                 else:
-                    if objekti_a.hitbox.colliderect(objekti_b.hitbox):
+                    #Robotin ja Mörön törmäys
+                    if type(objekti_a) == Robotti and type(objekti_b) == Morko and objekti_a.hitbox.colliderect(objekti_b.hitbox):
                         self.peli_kaynnissa = False
 
     def tutki_tapahtumat(self):
