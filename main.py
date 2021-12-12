@@ -131,7 +131,7 @@ class Peli:
                     #Robotin ja Esteen törmäys
                     if type(objekti_a) == Robotti and type(objekti_b) == Este and objekti_a.hitbox.colliderect(objekti_b.hitbox):
                         self.peli_kaynnissa = False
-                        self.lopetus_syy = "Esteeseen"
+                        self.lopetus_syy = "esteeseen"
                         self.lopetus_aika = pygame.time.get_ticks()
 
 
