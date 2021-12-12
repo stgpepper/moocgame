@@ -163,8 +163,8 @@ class Peli:
 
             if tapahtuma.type == pygame.QUIT:
                 exit()
-
-        self.onko_tormays()
+        if self.peli_kaynnissa:
+            self.onko_tormays()
 
 
     def liiku(self, liike_y, liike_x):
@@ -203,7 +203,7 @@ class Peli:
             textsurface = self.fontti.render(f"Törmäsit  {self.lopetus_syy}!", False, (255, 0, 0))
             self.naytto.blit(textsurface, (nayton_leveys/2 - ruudun_koko[0]/2 + 10, nayton_korkeus/2 - ruudun_koko[1]/2 + 10))
 
-            textsurface = self.fontti.render(f"selviydyit yhteensä {self.lopetus_aika/1000:.1f} sekuntia!", False, (255, 0, 0))
+            textsurface = self.fontti.render(f"selviydyit yhteensä {self.aloitus_aika/1000 - self.lopetus_aika/1000:.1f} sekuntia!", False, (255, 0, 0))
             self.naytto.blit(textsurface, (nayton_leveys / 2 - ruudun_koko[0] / 2 + 10, nayton_korkeus / 2 - ruudun_koko[1] / 2 + 40))
 
         pygame.display.flip()
