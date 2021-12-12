@@ -24,6 +24,7 @@ class Peli:
         self.este_objektit = 1
         self.este_objektit_nopeus = 1
         self.raha_objektit = 5
+        self.lopetus_syy = None
 
         self.naytto = pygame.display.set_mode((nayton_leveys, nayton_korkeus))
 
@@ -109,6 +110,7 @@ class Peli:
                     #Robotin ja Mörön törmäys
                     if type(objekti_a) == Robotti and type(objekti_b) == Morko and objekti_a.hitbox.colliderect(objekti_b.hitbox):
                         self.peli_kaynnissa = False
+                        self.lopetus_syy = "Mörköön"
                     #Robotin ja rahan törmäys
                     if type(objekti_a) == Robotti and type(objekti_b) == Raha and objekti_a.hitbox.colliderect(objekti_b.hitbox):
                         self.objektit.remove(objekti_b)
@@ -119,6 +121,7 @@ class Peli:
                     #Robotin ja Esteen törmäys
                     if type(objekti_a) == Robotti and type(objekti_b) == Este and objekti_a.hitbox.colliderect(objekti_b.hitbox):
                         self.peli_kaynnissa = False
+                        self.lopetus_syy = "Esteeseen"
 
 
     def tutki_tapahtumat(self):
