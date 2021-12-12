@@ -22,6 +22,7 @@ class Peli:
         self.aloitus_aika = pygame.time.get_ticks()
         self.trigger_aika = pygame.time.get_ticks()
         self.este_objektit = 1
+        self.este_objektit_nopeus = 1
         self.raha_objektit = 5
 
         self.naytto = pygame.display.set_mode((nayton_leveys, nayton_korkeus))
@@ -40,7 +41,7 @@ class Peli:
         self.objektit = []
         self.objektit.append(Robotti())
         self.robotin_sijainti = self.objektit[0].hae_sijainti()
-        #self.objektit.append((Morko()))
+        self.objektit.append((Morko()))
 
         self.silmukka()
 
@@ -51,6 +52,7 @@ class Peli:
                 self.tausta_suunta = 1
             self.trigger_aika = pygame.time.get_ticks()
             self.este_objektit += 2
+            self.este_objektit_nopeus += 0.1
 
     def onko_liike_alueella(self, objekti):
         if objekti.hitbox.colliderect(pygame.Rect(rajaus_alue_leveys, rajaus_alue_korkeus, nayton_leveys - rajaus_alue_leveys * 2, nayton_korkeus - rajaus_alue_korkeus * 2)):
@@ -82,6 +84,7 @@ class Peli:
             #Generoidaan Esteet
             if sum(isinstance(objekti, Este) for objekti in self.objektit) < self.este_objektit:
                 uusi_este = Este()
+                uusi_este.nopeus = self.este_objektit_nopeus
                 if self.onko_liike_alueella(uusi_este) == False:
                     self.objektit.append(uusi_este)
 
