@@ -192,7 +192,9 @@ class Peli:
         for objekti in self.objektit:
             # Piirretään mikä tahansa muu kuin este
             if type(objekti) != Este:
+                pygame.draw.rect(self.naytto, (255, 0, 0), pygame.Rect(objekti.hitbox)) #piirtää hitboxin devaajaa varten
                 self.naytto.blit(objekti.kuva, (objekti.x, objekti.y))
+
             #Piirretään este
             else:
                 pygame.draw.rect(self.naytto, (0, 0, 255), pygame.Rect(objekti.x, objekti.y, objekti.leveys, objekti.korkeus))
