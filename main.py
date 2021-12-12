@@ -38,12 +38,6 @@ class Peli:
         self.objektit.append(Robotti())
         self.robotin_sijainti = self.objektit[0].hae_sijainti()
         self.objektit.append((Morko()))
-        #for i in range(10):
-        #    self.objektit.append(Raha())
-        #    uusi_este = Este()
-        #    if
-        #    self.objektit.append(Este())
-        #    self.poista_este_jos_liike_alueella()
 
         self.silmukka()
 
