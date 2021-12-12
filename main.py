@@ -38,11 +38,20 @@ class Peli:
         self.objektit.append(Robotti())
         self.robotin_sijainti = self.objektit[0].hae_sijainti()
         self.objektit.append((Morko()))
-        for i in range(10):
-            self.objektit.append(Raha())
-            self.objektit.append(Este())
+        #for i in range(10):
+        #    self.objektit.append(Raha())
+        #    uusi_este = Este()
+        #    if
+        #    self.objektit.append(Este())
+        #    self.poista_este_jos_liike_alueella()
 
         self.silmukka()
+
+    def onko_liike_alueella(self, objekti):
+        if objekti.hitbox.colliderect(pygame.Rect(rajaus_alue_leveys, rajaus_alue_korkeus, nayton_leveys - rajaus_alue_leveys * 2, nayton_korkeus - rajaus_alue_korkeus * 2)):
+            return True
+        else:
+            return False
 
         #poistaa Rahat ja esteet, jotka ovat liian kaukana ruudusta
     def poista_kaukaiset(self):
@@ -64,9 +73,13 @@ class Peli:
             self.kasittele_tapahtumat()
             self.piirra_naytto()
             self.poista_kaukaiset()
-            if len(self.objektit) < 17:
-                self.objektit.append(Este())
-                self.objektit.append(Raha())
+
+            #Generoidaan Esteet
+            if sum(isinstance(objekti, Este) for objekti in self.objektit) < 20:
+                uusi_este = Este()
+                if self.onko_liike_alueella(uusi_este) == False:
+                    self.objektit.append(uusi_este)
+            #self.objektit.append(Raha())
             self.kello.tick(60)
         while True:
             self.tutki_tapahtumat()
