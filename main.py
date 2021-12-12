@@ -24,8 +24,12 @@ class Peli:
         self.este_objektit = 1
         self.este_objektit_nopeus = 1
         self.raha_objektit = 5
+
         self.lopetus_syy = None
         self.lopetus_aika = None
+
+        self.moron_nopeus = 0
+        self.lopetus_moron_maximi = 0
 
         self.naytto = pygame.display.set_mode((nayton_leveys, nayton_korkeus))
 
@@ -46,6 +50,7 @@ class Peli:
         self.objektit.append((Morko()))
 
         self.silmukka()
+
 
     def trigger(self):
         if pygame.time.get_ticks() >= self.trigger_aika + 10000:
@@ -74,6 +79,10 @@ class Peli:
         for objekti in self.objektit:
             if type(objekti) == type(Robotti()):
                 self.robotin_sijainti = objekti.hae_sijainti()
+            if type(objekti) == type(Morko()):
+                self.moron_nopeus = max(objekti.nopeus_x, objekti.nopeus_y)
+                if self.moron_nopeus > self.lopetus_moron_maximi:
+                    self.lopetus_moron_maximi = self.moron_nopeus
             objekti.looppi(self.nuolinappaimet, self.robotin_sijainti, self.tausta_suunta)
 
     def silmukka(self):
