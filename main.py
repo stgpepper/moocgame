@@ -108,7 +108,7 @@ class Peli:
         while True:
             self.tutki_tapahtumat()
             self.piirra_naytto()
-            self.kello.tick(1)
+            self.kello.tick(10)
 
     def onko_tormays(self):
         for objekti_a in self.objektit:
@@ -302,7 +302,7 @@ class Morko:
         self.nopeus_y = 0.0
         self.kiihtyvyys = 0
         self.max_vauhti = 3 # 3
-        self.hitbox = pygame.Rect(self.x, self.y, self.kuva.get_width(), self.kuva.get_height())
+        self.hitbox = pygame.Rect(self.x+7, self.y+4, self.kuva.get_width()-10, self.kuva.get_height()-7)
         self.hidastuu = 0 #Mittaa kauanko rahan oton jälkeen näytetään punaista merkkiä
 
     def looppi(self, nuolinappaimet, robotin_sijainti, taustan_suunta):
