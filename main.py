@@ -1,5 +1,4 @@
 import random
-
 import pygame
 import math
 
@@ -10,7 +9,6 @@ nayton_korkeus = 800
 
 rajaus_alue_leveys = 100
 rajaus_alue_korkeus = 100
-
 
 class Peli:
 
@@ -32,11 +30,10 @@ class Peli:
         self.lopetus_moron_maximi = 0
 
         self.naytto = pygame.display.set_mode((nayton_leveys, nayton_korkeus))
-
         self.fontti = pygame.font.SysFont("Arial", 26)
-
         pygame.display.set_caption("Pakoon")
 
+        #Pelin ja näpäinten tilan atribuutit
         self.vasemmalle = False
         self.ylos = False
         self.oikealle = False
@@ -44,45 +41,14 @@ class Peli:
         self.nuolinappaimet = (self.vasemmalle, self.ylos, self.oikealle, self.alas)
         self.tausta_suunta = random.randint(1, 8) #1-8 vasemmalta alkaen jokainen väliilmansuunta
 
+        #Alustetaan kaikki ruudulla liikkuvat hahmot
         self.objektit = []
         self.objektit.append(Robotti())
         self.robotin_sijainti = self.objektit[0].hae_sijainti()
         self.objektit.append((Morko()))
 
+        #Pääsilmukka
         self.silmukka()
-
-
-    def trigger(self):
-        if pygame.time.get_ticks() >= self.trigger_aika + 10000:
-            self.tausta_suunta += 1
-            if self.tausta_suunta > 8:
-                self.tausta_suunta = 1
-            self.trigger_aika = pygame.time.get_ticks()
-            self.este_objektit += 2
-            self.este_objektit_nopeus += 0.1
-
-    def onko_liike_alueella(self, objekti):
-        if objekti.hitbox.colliderect(pygame.Rect(rajaus_alue_leveys, rajaus_alue_korkeus, nayton_leveys - rajaus_alue_leveys * 2, nayton_korkeus - rajaus_alue_korkeus * 2)):
-            return True
-        else:
-            return False
-
-        #poistaa Rahat ja esteet, jotka ovat liian kaukana ruudusta
-    def poista_kaukaiset(self):
-            for objekti in self.objektit:
-                if type(objekti) == Este or type(objekti) == Raha:
-                    if math.sqrt((objekti.x - nayton_leveys / 2)**2 + (objekti.y - nayton_korkeus / 2)**2) > nayton_leveys:
-                        self.objektit.remove(objekti)
-
-    def kasittele_tapahtumat(self):
-        for objekti in self.objektit:
-            if type(objekti) == type(Robotti()):
-                self.robotin_sijainti = objekti.hae_sijainti()
-            if type(objekti) == type(Morko()):
-                self.moron_nopeus = max(abs(objekti.nopeus_x), abs(objekti.nopeus_y))
-                if self.moron_nopeus > self.lopetus_moron_maximi:
-                    self.lopetus_moron_maximi = self.moron_nopeus
-            objekti.looppi(self.nuolinappaimet, self.robotin_sijainti, self.tausta_suunta)
 
     def silmukka(self):
         while self.peli_kaynnissa:
@@ -109,32 +75,6 @@ class Peli:
             self.tutki_tapahtumat()
             self.piirra_naytto()
             self.kello.tick(10)
-
-    def onko_tormays(self):
-        for objekti_a in self.objektit:
-            for objekti_b in self.objektit:
-                if objekti_a == objekti_b:
-                    continue
-                else:
-                    #Robotin ja Mörön törmäys
-                    if type(objekti_a) == Robotti and type(objekti_b) == Morko and objekti_a.hitbox.colliderect(objekti_b.hitbox):
-                        self.peli_kaynnissa = False
-                        self.lopetus_syy = "Mörköön"
-                        self.lopetus_aika = pygame.time.get_ticks()
-                    #Robotin ja rahan törmäys
-                    if type(objekti_a) == Robotti and type(objekti_b) == Raha and objekti_a.hitbox.colliderect(objekti_b.hitbox):
-                        self.objektit.remove(objekti_b)
-                        for i in self.objektit:
-                            if type(i) == Morko:
-                                if i.max_vauhti > 0:
-                                    i.max_vauhti -= 0.5
-                                    i.hidastuu += 10
-                    #Robotin ja Esteen törmäys
-                    if type(objekti_a) == Robotti and type(objekti_b) == Este and objekti_a.hitbox.colliderect(objekti_b.hitbox):
-                        self.peli_kaynnissa = False
-                        self.lopetus_syy = "esteeseen"
-                        self.lopetus_aika = pygame.time.get_ticks()
-
 
     def tutki_tapahtumat(self):
         for tapahtuma in pygame.event.get():
@@ -175,6 +115,63 @@ class Peli:
         if self.peli_kaynnissa:
             self.onko_tormays()
 
+    #Määrittelee objektien muuttuneet arvot ja ajaa kunkin objektin oman loopin
+    def kasittele_tapahtumat(self):
+        for objekti in self.objektit:
+            if type(objekti) == type(Robotti()):
+                self.robotin_sijainti = objekti.hae_sijainti()
+            if type(objekti) == type(Morko()):
+                self.moron_nopeus = max(abs(objekti.nopeus_x), abs(objekti.nopeus_y))
+                if self.moron_nopeus > self.lopetus_moron_maximi:
+                    self.lopetus_moron_maximi = self.moron_nopeus
+            objekti.looppi(self.nuolinappaimet, self.robotin_sijainti, self.tausta_suunta)
+
+    #Vaihtaa taustan suuntaa ja esteiden määrää, sekä nopeutta 10 sekuntin välein
+    def trigger(self):
+        if pygame.time.get_ticks() >= self.trigger_aika + 10000:
+            self.tausta_suunta += 1
+            if self.tausta_suunta > 8:
+                self.tausta_suunta = 1
+            self.trigger_aika = pygame.time.get_ticks()
+            self.este_objektit += 2
+            self.este_objektit_nopeus += 0.1
+
+    def onko_liike_alueella(self, objekti):
+        return objekti.hitbox.colliderect(pygame.Rect(rajaus_alue_leveys, rajaus_alue_korkeus, nayton_leveys - rajaus_alue_leveys * 2, nayton_korkeus - rajaus_alue_korkeus * 2))
+
+    #poistaa Rahat ja esteet, jotka ovat liian kaukana ruudusta
+    def poista_kaukaiset(self):
+            for objekti in self.objektit:
+                if type(objekti) == Este or type(objekti) == Raha:
+                    if math.sqrt((objekti.x - nayton_leveys / 2)**2 + (objekti.y - nayton_korkeus / 2)**2) > nayton_leveys:
+                        self.objektit.remove(objekti)
+
+    #Tarkistaa onko törmäys ja suorittaa asianmukaisen toimenpiteen
+    def onko_tormays(self):
+        for objekti_a in self.objektit:
+            for objekti_b in self.objektit:
+                if objekti_a == objekti_b:
+                    continue
+                else:
+                    #Robotin ja Mörön törmäys
+                    if type(objekti_a) == Robotti and type(objekti_b) == Morko and objekti_a.hitbox.colliderect(objekti_b.hitbox):
+                        self.peli_kaynnissa = False
+                        self.lopetus_syy = "Mörköön"
+                        self.lopetus_aika = pygame.time.get_ticks()
+                    #Robotin ja rahan törmäys
+                    if type(objekti_a) == Robotti and type(objekti_b) == Raha and objekti_a.hitbox.colliderect(objekti_b.hitbox):
+                        self.objektit.remove(objekti_b)
+                        for i in self.objektit:
+                            if type(i) == Morko:
+                                if i.max_vauhti > 0:
+                                    i.max_vauhti -= 0.5
+                                    i.hidastuu += 10
+                    #Robotin ja Esteen törmäys
+                    if type(objekti_a) == Robotti and type(objekti_b) == Este and objekti_a.hitbox.colliderect(objekti_b.hitbox):
+                        self.peli_kaynnissa = False
+                        self.lopetus_syy = "esteeseen"
+                        self.lopetus_aika = pygame.time.get_ticks()
+
     def piirra_naytto(self):
         #Piirretään tausta
         self.naytto.fill((0, 0, 0))
@@ -188,13 +185,12 @@ class Peli:
         pygame.draw.rect(self.naytto, (255, 255, 255), pygame.Rect(rajaus_alue_leveys, rajaus_alue_korkeus, nayton_leveys - rajaus_alue_leveys*2, nayton_korkeus - rajaus_alue_korkeus*2))
         pygame.draw.rect(self.naytto, (20, 20, 20), pygame.Rect(rajaus_alue_leveys + 1, rajaus_alue_korkeus + 1, (nayton_leveys - rajaus_alue_leveys * 2)-2, (nayton_korkeus - rajaus_alue_korkeus * 2)-2))
 
-        #Obejktien piirto
+        #Objektien piirto
         for objekti in self.objektit:
             # Piirretään mikä tahansa muu kuin este
             if type(objekti) != Este:
-                pygame.draw.rect(self.naytto, (255, 0, 0), pygame.Rect(objekti.hitbox)) #piirtää hitboxin devaajaa varten
+                #pygame.draw.rect(self.naytto, (255, 0, 0), pygame.Rect(objekti.hitbox)) #piirtää tarvittaessa hitboxin ohjelmoijaa varten
                 self.naytto.blit(objekti.kuva, (objekti.x, objekti.y))
-
             #Piirretään este
             else:
                 pygame.draw.rect(self.naytto, (0, 0, 255), pygame.Rect(objekti.x, objekti.y, objekti.leveys, objekti.korkeus))
@@ -202,19 +198,20 @@ class Peli:
             if type(objekti) == Morko and objekti.hidastuu > 0:
                 pygame.draw.rect(self.naytto, (255, 0, 0), pygame.Rect(objekti.x, objekti.y, objekti.kuva.get_width(), objekti.kuva.get_height()))
 
-        #Ajan näyttö
+        #Ajan näyttö (in game)
         textsurface = self.fontti.render(f"Aika: {(pygame.time.get_ticks() - self.aloitus_aika)/1000:.1f}", False, (255,0,0))
         self.naytto.blit(textsurface, (0,nayton_korkeus-30))
 
-        #Mörön nopeuden näyttö
+        #Mörön nopeuden näyttö (in game)
         textsurface = self.fontti.render(f"Mörön nopeus: {self.moron_nopeus:.1f} m/s", False, (255, 0, 0))
         self.naytto.blit(textsurface, (200, nayton_korkeus - 30))
 
+        #Ohjenäkymä (still kuva)
         if not self.peli_kaynnissa:
             try:
                 if self.lopetus_syy == None:
                     raise ValueError("Ei lopetussyytä. Peli on todennäköisesti juuri aloitettu")
-                # Lopputekstit
+                # Tilastot
                 ruudun_koko = (600, 300)
                 pygame.draw.rect(self.naytto, (20, 20, 20), pygame.Rect(rajaus_alue_leveys + 1, rajaus_alue_korkeus + 1,(nayton_leveys - rajaus_alue_leveys * 2) - 2, (nayton_korkeus - rajaus_alue_korkeus * 2) - 2))
 
@@ -231,7 +228,6 @@ class Peli:
 
                 textsurface = self.fontti.render(f"Mörön maksiminopeus oli {self.lopetus_moron_maximi:.1f}", False, (255, 0, 0))
                 self.naytto.blit(textsurface, (nayton_leveys / 2 - ruudun_koko[0] / 2 + 10, rajaus_alue_korkeus + 70))
-
 
             except:
                 pass
@@ -255,14 +251,12 @@ class Peli:
             textsurface = self.fontti.render(f"Paina Enteriä aloittaaksesi peli", False, (0, 255, 0))
             self.naytto.blit(textsurface, (rajaus_alue_leveys + 10, nayton_korkeus / 2 + 125))
 
-            ruudun_koko = (600, 300)
             pygame.draw.rect(self.naytto, (0, 0, 0), pygame.Rect(0, nayton_korkeus - rajaus_alue_korkeus, nayton_leveys, rajaus_alue_korkeus))
 
         pygame.display.flip()
 
     def uusi_peli(self):
         Peli()
-
 
 class Robotti:
 
@@ -290,7 +284,6 @@ class Robotti:
             if nuolinappaimet[3]:
                 self.y += 1 * self.nopeus
         self.hitbox = pygame.Rect(self.x + 6, self.y+1, self.kuva.get_width()-13, self.kuva.get_height()-2)
-
 
 class Morko:
 
@@ -324,13 +317,13 @@ class Morko:
         if robotin_sijainti[1] < self.y +30:
             self.nopeus_y -= self.kiihtyvyys
 
-        #Nopeus liian korkea
+        #Tarkistetaan onko nopeus liian korkea
         if self.nopeus_x > self.max_vauhti:
             self.nopeus_x = self.max_vauhti
         if self.nopeus_y > self.max_vauhti:
             self.nopeus_y = self.max_vauhti
 
-        #Nopeus liian pieni
+        #Tarkistetaan onko nopeus liian pieni
         if self.nopeus_x < self.max_vauhti *-1:
             self.nopeus_x = self.max_vauhti *-1
         if self.nopeus_y < self.max_vauhti *-1:
@@ -339,8 +332,6 @@ class Morko:
         #Määritetään mörön sijainti
         self.x += self.nopeus_x
         self.y += self.nopeus_y
-
-        #print(f" nopeus_x:{self.nopeus_x}     nopeus_y:{self.nopeus_y}     kiihtyvyys:{self.kiihtyvyys}")
 
         self.hitbox = pygame.Rect(self.x+7, self.y+4, self.kuva.get_width()-10, self.kuva.get_height()-7)
 
@@ -369,7 +360,6 @@ class TaustaObjekti:
             self.x -= self.nopeus
 
         self.hae_hitbox()
-
 
 class Raha(TaustaObjekti):
     def __init__(self):
