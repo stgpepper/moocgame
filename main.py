@@ -380,7 +380,7 @@ class Raha(TaustaObjekti):
         self.nopeus = 1
 
     def hae_hitbox(self):
-        self.hitbox = pygame.Rect(self.x, self.y, self.kuva.get_width(), self.kuva.get_height())
+        self.hitbox = pygame.Rect(self.x+2, self.y+2, self.kuva.get_width()-4, self.kuva.get_height()-4)
 
 class Este(TaustaObjekti):  # Esteet scrollaa (liikkuu) aina samaan suuntaan.
     def __init__(self):
