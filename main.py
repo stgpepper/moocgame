@@ -21,11 +21,7 @@ class Peli:
         self.kello = pygame.time.Clock()
         self.aloitus_aika = pygame.time.get_ticks()
 
-        self.pelin_leveys = 1640
-        self.pelin_korkeus = 950
-
         self.naytto = pygame.display.set_mode((nayton_leveys, nayton_korkeus))
-
 
         self.fontti = pygame.font.SysFont("Arial", 24)
 
