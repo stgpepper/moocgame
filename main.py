@@ -142,7 +142,7 @@ class Peli:
             # Painetaan painikkeet alas
             if tapahtuma.type == pygame.KEYDOWN:
 
-                if tapahtuma.key == pygame.K_F2:
+                if tapahtuma.key == pygame.K_RETURN:
                     self.uusi_peli()
                 if tapahtuma.key == pygame.K_ESCAPE:
                     exit()
@@ -199,7 +199,7 @@ class Peli:
                 pygame.draw.rect(self.naytto, (0, 0, 255), pygame.Rect(objekti.x, objekti.y, objekti.leveys, objekti.korkeus))
 
         #Ajan näyttö
-        textsurface = self.fontti.render("Aika: "+str((pygame.time.get_ticks() - self.aloitus_aika)/1000), False, (255,0,0))
+        textsurface = self.fontti.render(f"Aika: {(pygame.time.get_ticks() - self.aloitus_aika)/1000}", False, (255,0,0))
         self.naytto.blit(textsurface, (0,nayton_korkeus-30))
 
         #Mörön nopeuden näyttö
@@ -214,7 +214,7 @@ class Peli:
             textsurface = self.fontti.render(f"Törmäsit  {self.lopetus_syy}!", False, (255, 0, 0))
             self.naytto.blit(textsurface, (nayton_leveys/2 - ruudun_koko[0]/2 + 10, nayton_korkeus/2 - ruudun_koko[1]/2 + 10))
 
-            textsurface = self.fontti.render(f"selviydyit yhteensä {self.aloitus_aika/1000 - self.lopetus_aika/1000:.1f} sekuntia!", False, (255, 0, 0))
+            textsurface = self.fontti.render(f"selviydyit yhteensä {(self.aloitus_aika/1000 - self.lopetus_aika/1000) *-1 :.1f} sekuntia!", False, (255, 0, 0))
             self.naytto.blit(textsurface, (nayton_leveys / 2 - ruudun_koko[0] / 2 + 10, nayton_korkeus / 2 - ruudun_koko[1] / 2 + 40))
 
             textsurface = self.fontti.render(f"Mörön maksiminopeus oli {self.lopetus_moron_maximi:.1f}", False, (255, 0, 0))
@@ -266,7 +266,7 @@ class Morko:
         self.nopeus_x = 0.0
         self.nopeus_y = 0.0
         self.kiihtyvyys = 0
-        self.max_vauhti = 3 # 1.5
+        self.max_vauhti = 3 # 3
         self.hitbox = pygame.Rect(self.x, self.y, self.kuva.get_width(), self.kuva.get_height())
 
     def looppi(self, nuolinappaimet, robotin_sijainti, taustan_suunta):
