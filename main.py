@@ -270,7 +270,7 @@ class Robotti:
         self.kuva = pygame.image.load("robo.png")
         self.x = nayton_leveys / 2 - self.kuva.get_width()
         self.y = nayton_korkeus / 2 - self.kuva.get_height()
-        self.hitbox = pygame.Rect(self.x, self.y, self.kuva.get_width(), self.kuva.get_height())
+        self.hitbox = pygame.Rect(self.x + 6, self.y+1, self.kuva.get_width()-13, self.kuva.get_height()-2)
         self.nopeus = 3
 
     def hae_sijainti(self):
