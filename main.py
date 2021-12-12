@@ -80,7 +80,7 @@ class Peli:
             if type(objekti) == type(Robotti()):
                 self.robotin_sijainti = objekti.hae_sijainti()
             if type(objekti) == type(Morko()):
-                self.moron_nopeus = max(objekti.nopeus_x, objekti.nopeus_y)
+                self.moron_nopeus = max(abs(objekti.nopeus_x), abs(objekti.nopeus_y))
                 if self.moron_nopeus > self.lopetus_moron_maximi:
                     self.lopetus_moron_maximi = self.moron_nopeus
             objekti.looppi(self.nuolinappaimet, self.robotin_sijainti, self.tausta_suunta)
