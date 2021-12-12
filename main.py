@@ -289,7 +289,7 @@ class Robotti:
         if nayton_korkeus - rajaus_alue_korkeus - self.kuva.get_height() > self.y:
             if nuolinappaimet[3]:
                 self.y += 1 * self.nopeus
-        self.hitbox = pygame.Rect(self.x, self.y, self.kuva.get_width(), self.kuva.get_height())
+        self.hitbox = pygame.Rect(self.x + 6, self.y+1, self.kuva.get_width()-13, self.kuva.get_height()-2)
 
 
 class Morko:
@@ -342,7 +342,7 @@ class Morko:
 
         #print(f" nopeus_x:{self.nopeus_x}     nopeus_y:{self.nopeus_y}     kiihtyvyys:{self.kiihtyvyys}")
 
-        self.hitbox = pygame.Rect(self.x, self.y, self.kuva.get_width(), self.kuva.get_height())
+        self.hitbox = pygame.Rect(self.x+7, self.y+4, self.kuva.get_width()-10, self.kuva.get_height()-7)
 
 class TaustaObjekti:
 
@@ -376,7 +376,7 @@ class Raha(TaustaObjekti):
         self.kuva = pygame.image.load("kolikko.png")
         self.x = random.randint(0, nayton_leveys)
         self.y = random.randint(0, nayton_korkeus)
-        self.hitbox = pygame.Rect(self.x, self.y, self.kuva.get_width(), self.kuva.get_height())
+        self.hitbox = pygame.Rect(self.x+2, self.y+2, self.kuva.get_width()-4, self.kuva.get_height()-4)
         self.nopeus = 1
 
     def hae_hitbox(self):
