@@ -173,7 +173,7 @@ class Peli:
 
     def piirra_naytto(self):
         #Piirretään tausta
-        if pygame.time.get_ticks() >= self.trigger_aika + 9000:
+        if pygame.time.get_ticks() >= self.trigger_aika + 9000 and self.peli_kaynnissa == True:
             self.naytto.fill((255, 0, 0))
         else:
             self.naytto.fill((0, 0, 0))
@@ -205,6 +205,9 @@ class Peli:
 
             textsurface = self.fontti.render(f"selviydyit yhteensä {self.aloitus_aika/1000 - self.lopetus_aika/1000:.1f} sekuntia!", False, (255, 0, 0))
             self.naytto.blit(textsurface, (nayton_leveys / 2 - ruudun_koko[0] / 2 + 10, nayton_korkeus / 2 - ruudun_koko[1] / 2 + 40))
+
+            ruudun_koko = (600, 300)
+            pygame.draw.rect(self.naytto, (0, 0, 0), pygame.Rect(0, nayton_korkeus - rajaus_alue_korkeus, nayton_leveys, rajaus_alue_korkeus))
 
         pygame.display.flip()
 
