@@ -232,6 +232,11 @@ class Peli:
             except:
                 pass
 
+            #Otsikko
+            self.otsikko_fontti = pygame.font.SysFont("Arial", 100)
+            textsurface = self.otsikko_fontti.render(f"PAKOON!", False, (255, 255, 0))
+            self.naytto.blit(textsurface, (nayton_leveys /2 - 216, nayton_korkeus / 2-120))
+
             #Ohjeet
             textsurface = self.fontti.render(f"OHJEET",False, (0, 255, 0))
             self.naytto.blit(textsurface, (rajaus_alue_leveys + 10, nayton_korkeus / 2))
