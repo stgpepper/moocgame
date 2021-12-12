@@ -20,6 +20,7 @@ class Peli:
         self.peli_kaynnissa = True
         self.kello = pygame.time.Clock()
         self.aloitus_aika = pygame.time.get_ticks()
+        self.kaanto_aika = pygame.time.get_ticks()
 
         self.naytto = pygame.display.set_mode((nayton_leveys, nayton_korkeus))
 
@@ -40,6 +41,11 @@ class Peli:
         self.objektit.append((Morko()))
 
         self.silmukka()
+
+    def kaanna_suunta(self):
+        if pygame.time.get_ticks() >= self.kaanto_aika + 10000:
+            self.tausta_suunta += 1
+            self.kaanto_aika = pygame.time.get_ticks()
 
     def onko_liike_alueella(self, objekti):
         if objekti.hitbox.colliderect(pygame.Rect(rajaus_alue_leveys, rajaus_alue_korkeus, nayton_leveys - rajaus_alue_leveys * 2, nayton_korkeus - rajaus_alue_korkeus * 2)):
@@ -78,6 +84,7 @@ class Peli:
                 uusi_raha = Raha()
                 if self.onko_liike_alueella(uusi_raha) == False:
                     self.objektit.append(uusi_raha)
+            self.kaanna_suunta()
             self.kello.tick(60)
         while True:
             self.tutki_tapahtumat()
