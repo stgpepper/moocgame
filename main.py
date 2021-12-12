@@ -175,11 +175,6 @@ class Peli:
         if self.peli_kaynnissa:
             self.onko_tormays()
 
-
-    def liiku(self, liike_y, liike_x):
-        if self.peli_ohi():
-            return
-
     def piirra_naytto(self):
         #Piirretään tausta
         self.naytto.fill((0, 0, 0))
