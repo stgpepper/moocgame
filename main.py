@@ -45,6 +45,8 @@ class Peli:
     def kaanna_suunta(self):
         if pygame.time.get_ticks() >= self.kaanto_aika + 10000:
             self.tausta_suunta += 1
+            if self.tausta_suunta > 8:
+                self.tausta_suunta = 1
             self.kaanto_aika = pygame.time.get_ticks()
 
     def onko_liike_alueella(self, objekti):
