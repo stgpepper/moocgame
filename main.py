@@ -218,6 +218,11 @@ class Peli:
             ruudun_koko = (600, 300)
             pygame.draw.rect(self.naytto, (20, 20, 20), pygame.Rect(rajaus_alue_leveys + 1, rajaus_alue_korkeus + 1,(nayton_leveys - rajaus_alue_leveys * 2) - 2, (nayton_korkeus - rajaus_alue_korkeus * 2) - 2))
 
+            if self.lopetus_syy == "Mörköön":
+                self.naytto.blit(Morko().kuva, (800, 130))
+            elif self.lopetus_syy == "esteeseen":
+                pygame.draw.rect(self.naytto, (0, 0, 255), pygame.Rect(800, 130, 100, 100))
+
             textsurface = self.fontti.render(f"Törmäsit  {self.lopetus_syy}!", False, (255, 0, 0))
             self.naytto.blit(textsurface, (nayton_leveys/2 - ruudun_koko[0]/2 + 10, rajaus_alue_korkeus + 10))
 
