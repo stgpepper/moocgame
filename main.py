@@ -202,6 +202,9 @@ class Peli:
         textsurface = self.fontti.render("Aika: "+str((pygame.time.get_ticks() - self.aloitus_aika)/1000), False, (255,0,0))
         self.naytto.blit(textsurface, (0,nayton_korkeus-30))
 
+        #Mörön nopeuden näyttö
+        textsurface = self.fontti.render(f"Mörön nopeus: {self.moron_nopeus:.1f}", False, (255, 0, 0))
+        self.naytto.blit(textsurface, (200, nayton_korkeus - 30))
 
         if not self.peli_kaynnissa:
             # Lopputekstit
