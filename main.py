@@ -159,7 +159,11 @@ class Peli:
             return
 
     def piirra_naytto(self):
-        self.naytto.fill((0, 0, 0))
+        #Piirretään tausta
+        if pygame.time.get_ticks() >= self.kaanto_aika + 9000:
+            self.naytto.fill((255, 0, 0))
+        else:
+            self.naytto.fill((0, 0, 0))
 
         #Piirtää vaalean suorakulmion ruudulle
         pygame.draw.rect(self.naytto, (255, 255, 255), pygame.Rect(rajaus_alue_leveys, rajaus_alue_korkeus, nayton_leveys - rajaus_alue_leveys*2, nayton_korkeus - rajaus_alue_korkeus*2))
