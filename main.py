@@ -216,16 +216,16 @@ class Peli:
         if not self.peli_kaynnissa:
             # Lopputekstit
             ruudun_koko = (600, 300)
-            pygame.draw.rect(self.naytto, (255, 255, 255), pygame.Rect(nayton_leveys/2 - ruudun_koko[0]/2, nayton_korkeus/2 - ruudun_koko[1]/2, ruudun_koko[0], ruudun_koko[1]))
+            pygame.draw.rect(self.naytto, (20, 20, 20), pygame.Rect(rajaus_alue_leveys + 1, rajaus_alue_korkeus + 1,(nayton_leveys - rajaus_alue_leveys * 2) - 2, (nayton_korkeus - rajaus_alue_korkeus * 2) - 2))
 
             textsurface = self.fontti.render(f"Törmäsit  {self.lopetus_syy}!", False, (255, 0, 0))
-            self.naytto.blit(textsurface, (nayton_leveys/2 - ruudun_koko[0]/2 + 10, nayton_korkeus/2 - ruudun_koko[1]/2 + 10))
+            self.naytto.blit(textsurface, (nayton_leveys/2 - ruudun_koko[0]/2 + 10, rajaus_alue_korkeus + 10))
 
             textsurface = self.fontti.render(f"selviydyit yhteensä {(self.aloitus_aika/1000 - self.lopetus_aika/1000) *-1 :.1f} sekuntia!", False, (255, 0, 0))
-            self.naytto.blit(textsurface, (nayton_leveys / 2 - ruudun_koko[0] / 2 + 10, nayton_korkeus / 2 - ruudun_koko[1] / 2 + 40))
+            self.naytto.blit(textsurface, (nayton_leveys / 2 - ruudun_koko[0] / 2 + 10, rajaus_alue_korkeus + 40))
 
             textsurface = self.fontti.render(f"Mörön maksiminopeus oli {self.lopetus_moron_maximi:.1f}", False, (255, 0, 0))
-            self.naytto.blit(textsurface, (nayton_leveys / 2 - ruudun_koko[0] / 2 + 10, nayton_korkeus / 2 - ruudun_koko[1] / 2 + 80))
+            self.naytto.blit(textsurface, (nayton_leveys / 2 - ruudun_koko[0] / 2 + 10, rajaus_alue_korkeus + 70))
 
             ruudun_koko = (600, 300)
             pygame.draw.rect(self.naytto, (0, 0, 0), pygame.Rect(0, nayton_korkeus - rajaus_alue_korkeus, nayton_leveys, rajaus_alue_korkeus))
