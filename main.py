@@ -230,8 +230,7 @@ class Peli:
                 textsurface = self.fontti.render(f"Mörön maksiminopeus oli {self.lopetus_moron_maximi:.1f}", False, (255, 0, 0))
                 self.naytto.blit(textsurface, (nayton_leveys / 2 - ruudun_koko[0] / 2 + 10, rajaus_alue_korkeus + 70))
 
-                ruudun_koko = (600, 300)
-                pygame.draw.rect(self.naytto, (0, 0, 0), pygame.Rect(0, nayton_korkeus - rajaus_alue_korkeus, nayton_leveys, rajaus_alue_korkeus))
+
             except:
                 pass
 
@@ -242,7 +241,7 @@ class Peli:
             textsurface = self.fontti.render(f"Tavoitteenasi on selvitä mahdollisimman kauan", False, (0, 255, 0))
             self.naytto.blit(textsurface, (rajaus_alue_leveys + 10, nayton_korkeus / 2 + 25))
 
-            textsurface = self.fontti.render(f"Menet Mörköä pakoon, mutta varo Mörkö nopeutuu jatkuvasti", False, (0, 255, 0))
+            textsurface = self.fontti.render(f"Liiku nuolinäppäimillä Mörköä pakoon, mutta varo Mörkö nopeutuu jatkuvasti", False, (0, 255, 0))
             self.naytto.blit(textsurface, (rajaus_alue_leveys + 10, nayton_korkeus / 2 + 50))
 
             textsurface = self.fontti.render(f"Rahat hidastavat Mörköä väliaikaisesti", False, (0, 255, 0))
@@ -254,7 +253,8 @@ class Peli:
             textsurface = self.fontti.render(f"Paina Enteriä aloittaaksesi peli", False, (0, 255, 0))
             self.naytto.blit(textsurface, (rajaus_alue_leveys + 10, nayton_korkeus / 2 + 125))
 
-
+            ruudun_koko = (600, 300)
+            pygame.draw.rect(self.naytto, (0, 0, 0), pygame.Rect(0, nayton_korkeus - rajaus_alue_korkeus, nayton_leveys, rajaus_alue_korkeus))
 
         pygame.display.flip()
 
