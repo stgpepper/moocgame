@@ -217,6 +217,9 @@ class Peli:
             textsurface = self.fontti.render(f"selviydyit yhteensä {self.aloitus_aika/1000 - self.lopetus_aika/1000:.1f} sekuntia!", False, (255, 0, 0))
             self.naytto.blit(textsurface, (nayton_leveys / 2 - ruudun_koko[0] / 2 + 10, nayton_korkeus / 2 - ruudun_koko[1] / 2 + 40))
 
+            textsurface = self.fontti.render(f"Mörön maksiminopeus oli {self.lopetus_moron_maximi:.1f}", False, (255, 0, 0))
+            self.naytto.blit(textsurface, (nayton_leveys / 2 - ruudun_koko[0] / 2 + 10, nayton_korkeus / 2 - ruudun_koko[1] / 2 + 80))
+
             ruudun_koko = (600, 300)
             pygame.draw.rect(self.naytto, (0, 0, 0), pygame.Rect(0, nayton_korkeus - rajaus_alue_korkeus, nayton_leveys, rajaus_alue_korkeus))
 
