@@ -245,7 +245,7 @@ class Peli:
             textsurface = self.fontti.render(f"Menet Mörköä pakoon, mutta varo Mörkö nopeutuu jatkuvasti", False, (0, 255, 0))
             self.naytto.blit(textsurface, (rajaus_alue_leveys + 10, nayton_korkeus / 2 + 50))
 
-            textsurface = self.fontti.render(f"Rahat hidastavat mörköä väliaikaisesti", False, (0, 255, 0))
+            textsurface = self.fontti.render(f"Rahat hidastavat Mörköä väliaikaisesti", False, (0, 255, 0))
             self.naytto.blit(textsurface, (rajaus_alue_leveys + 10, nayton_korkeus / 2 + 75))
 
             textsurface = self.fontti.render(f"Varo koskemasta sinisiä esteitä", False, (0, 255, 0))
@@ -253,6 +253,7 @@ class Peli:
 
             textsurface = self.fontti.render(f"Paina Enteriä aloittaaksesi peli", False, (0, 255, 0))
             self.naytto.blit(textsurface, (rajaus_alue_leveys + 10, nayton_korkeus / 2 + 125))
+
 
 
         pygame.display.flip()
