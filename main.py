@@ -25,6 +25,7 @@ class Peli:
         self.este_objektit_nopeus = 1
         self.raha_objektit = 5
         self.lopetus_syy = None
+        self.lopetus_aika = None
 
         self.naytto = pygame.display.set_mode((nayton_leveys, nayton_korkeus))
 
@@ -111,6 +112,7 @@ class Peli:
                     if type(objekti_a) == Robotti and type(objekti_b) == Morko and objekti_a.hitbox.colliderect(objekti_b.hitbox):
                         self.peli_kaynnissa = False
                         self.lopetus_syy = "Mörköön"
+                        self.lopetus_aika = pygame.time.get_ticks()
                     #Robotin ja rahan törmäys
                     if type(objekti_a) == Robotti and type(objekti_b) == Raha and objekti_a.hitbox.colliderect(objekti_b.hitbox):
                         self.objektit.remove(objekti_b)
@@ -122,6 +124,7 @@ class Peli:
                     if type(objekti_a) == Robotti and type(objekti_b) == Este and objekti_a.hitbox.colliderect(objekti_b.hitbox):
                         self.peli_kaynnissa = False
                         self.lopetus_syy = "Esteeseen"
+                        self.lopetus_aika = pygame.time.get_ticks()
 
 
     def tutki_tapahtumat(self):
@@ -195,10 +198,13 @@ class Peli:
             # Lopputekstit
             print("TRUE")
             ruudun_koko = (600, 300)
-            pygame.draw.rect(self.naytto, (255, 255, 255), pygame.Rect(nayton_leveys/2 - ruudun_koko[0]/2 - 10, nayton_korkeus/2 - ruudun_koko[1]/2 -10, ruudun_koko[0], ruudun_koko[1]))
+            pygame.draw.rect(self.naytto, (255, 255, 255), pygame.Rect(nayton_leveys/2 - ruudun_koko[0]/2, nayton_korkeus/2 - ruudun_koko[1]/2, ruudun_koko[0], ruudun_koko[1]))
 
-            textsurface = self.fontti.render(f"Törmäsit {self.lopetus_syy}!", False, (255, 0, 0))
-            self.naytto.blit(textsurface, (nayton_leveys/2 - ruudun_koko[0]/2, nayton_korkeus/2 - ruudun_koko[1]/2))
+            textsurface = self.fontti.render(f"Törmäsit  {self.lopetus_syy}!", False, (255, 0, 0))
+            self.naytto.blit(textsurface, (nayton_leveys/2 - ruudun_koko[0]/2 + 10, nayton_korkeus/2 - ruudun_koko[1]/2 + 10))
+
+            textsurface = self.fontti.render(f"selviydyit yhteensä {self.lopetus_aika/1000:.1f} sekuntia!", False, (255, 0, 0))
+            self.naytto.blit(textsurface, (nayton_leveys / 2 - ruudun_koko[0] / 2 + 10, nayton_korkeus / 2 - ruudun_koko[1] / 2 + 40))
 
         pygame.display.flip()
 
