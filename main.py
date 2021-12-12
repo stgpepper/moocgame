@@ -206,7 +206,7 @@ class Peli:
                 pygame.draw.rect(self.naytto, (255, 0, 0), pygame.Rect(objekti.x, objekti.y, objekti.kuva.get_width(), objekti.kuva.get_height()))
 
         #Ajan näyttö
-        textsurface = self.fontti.render(f"Aika: {(pygame.time.get_ticks() - self.aloitus_aika)/1000}", False, (255,0,0))
+        textsurface = self.fontti.render(f"Aika: {(pygame.time.get_ticks() - self.aloitus_aika)/1000:.1f}", False, (255,0,0))
         self.naytto.blit(textsurface, (0,nayton_korkeus-30))
 
         #Mörön nopeuden näyttö
