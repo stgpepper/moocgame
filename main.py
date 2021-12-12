@@ -73,7 +73,6 @@ class Peli:
                 if type(objekti) == Este or type(objekti) == Raha:
                     if math.sqrt((objekti.x - nayton_leveys / 2)**2 + (objekti.y - nayton_korkeus / 2)**2) > nayton_leveys:
                         self.objektit.remove(objekti)
-                        print("Objekti poistettu. Objekteja jäljellä:", len(self.objektit))
 
     def kasittele_tapahtumat(self):
         for objekti in self.objektit:
