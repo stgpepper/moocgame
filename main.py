@@ -14,10 +14,10 @@ rajaus_alue_korkeus = 100
 
 class Peli:
 
-    def __init__(self):
+    def __init__(self, peli_kaynnissa = True):
         pygame.init()
 
-        self.peli_kaynnissa = True
+        self.peli_kaynnissa = peli_kaynnissa
         self.kello = pygame.time.Clock()
         self.aloitus_aika = pygame.time.get_ticks()
         self.trigger_aika = pygame.time.get_ticks()
@@ -214,26 +214,31 @@ class Peli:
         self.naytto.blit(textsurface, (200, nayton_korkeus - 30))
 
         if not self.peli_kaynnissa:
-            # Lopputekstit
-            ruudun_koko = (600, 300)
-            pygame.draw.rect(self.naytto, (20, 20, 20), pygame.Rect(rajaus_alue_leveys + 1, rajaus_alue_korkeus + 1,(nayton_leveys - rajaus_alue_leveys * 2) - 2, (nayton_korkeus - rajaus_alue_korkeus * 2) - 2))
+            try:
+                if self.lopetus_syy == None:
+                    raise ValueError("Ei lopetussyytä. Peli on todennäköisesti juuri aloitettu")
+                # Lopputekstit
+                ruudun_koko = (600, 300)
+                pygame.draw.rect(self.naytto, (20, 20, 20), pygame.Rect(rajaus_alue_leveys + 1, rajaus_alue_korkeus + 1,(nayton_leveys - rajaus_alue_leveys * 2) - 2, (nayton_korkeus - rajaus_alue_korkeus * 2) - 2))
 
-            if self.lopetus_syy == "Mörköön":
-                self.naytto.blit(Morko().kuva, (800, 130))
-            elif self.lopetus_syy == "esteeseen":
-                pygame.draw.rect(self.naytto, (0, 0, 255), pygame.Rect(800, 130, 100, 100))
+                if self.lopetus_syy == "Mörköön":
+                    self.naytto.blit(Morko().kuva, (800, 130))
+                elif self.lopetus_syy == "esteeseen":
+                    pygame.draw.rect(self.naytto, (0, 0, 255), pygame.Rect(800, 130, 100, 100))
 
-            textsurface = self.fontti.render(f"Törmäsit  {self.lopetus_syy}!", False, (255, 0, 0))
-            self.naytto.blit(textsurface, (nayton_leveys/2 - ruudun_koko[0]/2 + 10, rajaus_alue_korkeus + 10))
+                textsurface = self.fontti.render(f"Törmäsit  {self.lopetus_syy}!", False, (255, 0, 0))
+                self.naytto.blit(textsurface, (nayton_leveys/2 - ruudun_koko[0]/2 + 10, rajaus_alue_korkeus + 10))
 
-            textsurface = self.fontti.render(f"Selviydyit yhteensä {(self.aloitus_aika/1000 - self.lopetus_aika/1000) *-1 :.1f} sekuntia!", False, (255, 0, 0))
-            self.naytto.blit(textsurface, (nayton_leveys / 2 - ruudun_koko[0] / 2 + 10, rajaus_alue_korkeus + 40))
+                textsurface = self.fontti.render(f"Selviydyit yhteensä {(self.aloitus_aika/1000 - self.lopetus_aika/1000) *-1 :.1f} sekuntia!", False, (255, 0, 0))
+                self.naytto.blit(textsurface, (nayton_leveys / 2 - ruudun_koko[0] / 2 + 10, rajaus_alue_korkeus + 40))
 
-            textsurface = self.fontti.render(f"Mörön maksiminopeus oli {self.lopetus_moron_maximi:.1f}", False, (255, 0, 0))
-            self.naytto.blit(textsurface, (nayton_leveys / 2 - ruudun_koko[0] / 2 + 10, rajaus_alue_korkeus + 70))
+                textsurface = self.fontti.render(f"Mörön maksiminopeus oli {self.lopetus_moron_maximi:.1f}", False, (255, 0, 0))
+                self.naytto.blit(textsurface, (nayton_leveys / 2 - ruudun_koko[0] / 2 + 10, rajaus_alue_korkeus + 70))
 
-            ruudun_koko = (600, 300)
-            pygame.draw.rect(self.naytto, (0, 0, 0), pygame.Rect(0, nayton_korkeus - rajaus_alue_korkeus, nayton_leveys, rajaus_alue_korkeus))
+                ruudun_koko = (600, 300)
+                pygame.draw.rect(self.naytto, (0, 0, 0), pygame.Rect(0, nayton_korkeus - rajaus_alue_korkeus, nayton_leveys, rajaus_alue_korkeus))
+            except:
+                pass
 
             #Ohjeet
             textsurface = self.fontti.render(f"OHJEET",False, (0, 255, 0))
@@ -393,4 +398,4 @@ class Este(TaustaObjekti):  # Esteet scrollaa (liikkuu) aina samaan suuntaan.
         self.hitbox = pygame.Rect(self.x, self.y, self.leveys, self.korkeus)
 
 if __name__ == "__main__":
-    Peli()
+    Peli(False)
