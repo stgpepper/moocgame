@@ -221,7 +221,7 @@ class Peli:
             textsurface = self.fontti.render(f"Törmäsit  {self.lopetus_syy}!", False, (255, 0, 0))
             self.naytto.blit(textsurface, (nayton_leveys/2 - ruudun_koko[0]/2 + 10, rajaus_alue_korkeus + 10))
 
-            textsurface = self.fontti.render(f"selviydyit yhteensä {(self.aloitus_aika/1000 - self.lopetus_aika/1000) *-1 :.1f} sekuntia!", False, (255, 0, 0))
+            textsurface = self.fontti.render(f"Selviydyit yhteensä {(self.aloitus_aika/1000 - self.lopetus_aika/1000) *-1 :.1f} sekuntia!", False, (255, 0, 0))
             self.naytto.blit(textsurface, (nayton_leveys / 2 - ruudun_koko[0] / 2 + 10, rajaus_alue_korkeus + 40))
 
             textsurface = self.fontti.render(f"Mörön maksiminopeus oli {self.lopetus_moron_maximi:.1f}", False, (255, 0, 0))
