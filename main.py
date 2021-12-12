@@ -21,6 +21,8 @@ class Peli:
         self.kello = pygame.time.Clock()
         self.aloitus_aika = pygame.time.get_ticks()
         self.trigger_aika = pygame.time.get_ticks()
+        self.este_objektit = 1
+        self.raha_objektit = 5
 
         self.naytto = pygame.display.set_mode((nayton_leveys, nayton_korkeus))
 
@@ -77,12 +79,13 @@ class Peli:
             self.poista_kaukaiset()
 
             #Generoidaan Esteet
-            if sum(isinstance(objekti, Este) for objekti in self.objektit) < 20:
+            if sum(isinstance(objekti, Este) for objekti in self.objektit) < self.este_objektit:
                 uusi_este = Este()
                 if self.onko_liike_alueella(uusi_este) == False:
                     self.objektit.append(uusi_este)
 
-            if sum(isinstance(objekti, Raha) for objekti in self.objektit) < 20:
+            #Generoidaan rahat
+            if sum(isinstance(objekti, Raha) for objekti in self.objektit) < self.raha_objektit:
                 uusi_raha = Raha()
                 if self.onko_liike_alueella(uusi_raha) == False:
                     self.objektit.append(uusi_raha)
