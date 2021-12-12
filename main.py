@@ -128,6 +128,7 @@ class Peli:
                             if type(i) == Morko:
                                 if i.max_vauhti > 0:
                                     i.max_vauhti -= 0.5
+                                    i.hidastuu += 10
                     #Robotin ja Esteen törmäys
                     if type(objekti_a) == Robotti and type(objekti_b) == Este and objekti_a.hitbox.colliderect(objekti_b.hitbox):
                         self.peli_kaynnissa = False
@@ -194,10 +195,15 @@ class Peli:
 
         #Obejktien piirto
         for objekti in self.objektit:
+            # Piirretään mikä tahansa muu kuin este
             if type(objekti) != Este:
                 self.naytto.blit(objekti.kuva, (objekti.x, objekti.y))
+            #Piirretään este
             else:
                 pygame.draw.rect(self.naytto, (0, 0, 255), pygame.Rect(objekti.x, objekti.y, objekti.leveys, objekti.korkeus))
+            #Piirretään mörölle punainen merkki jos raha on otettu
+            if type(objekti) == Morko and objekti.hidastuu > 0:
+                pygame.draw.rect(self.naytto, (255, 0, 0), pygame.Rect(objekti.x, objekti.y, objekti.kuva.get_width(), objekti.kuva.get_height()))
 
         #Ajan näyttö
         textsurface = self.fontti.render(f"Aika: {(pygame.time.get_ticks() - self.aloitus_aika)/1000}", False, (255,0,0))
@@ -269,8 +275,15 @@ class Morko:
         self.kiihtyvyys = 0
         self.max_vauhti = 3 # 3
         self.hitbox = pygame.Rect(self.x, self.y, self.kuva.get_width(), self.kuva.get_height())
+        self.hidastuu = 0 #Mittaa kauanko rahan oton jälkeen näytetään punaista merkkiä
 
     def looppi(self, nuolinappaimet, robotin_sijainti, taustan_suunta):
+        self.hidastuu -= 1
+        if self.hidastuu > 10:
+            self.hidastuu = 10
+        if self.hidastuu < 0:
+            self.hidastuu = 0
+
         self.max_vauhti += 0.001
         self.kiihtyvyys = math.sqrt((self.x - robotin_sijainti[0])**2 + (self.y - robotin_sijainti[1])**2) /1500
 
