@@ -196,7 +196,6 @@ class Peli:
 
         if not self.peli_kaynnissa:
             # Lopputekstit
-            print("TRUE")
             ruudun_koko = (600, 300)
             pygame.draw.rect(self.naytto, (255, 255, 255), pygame.Rect(nayton_leveys/2 - ruudun_koko[0]/2, nayton_korkeus/2 - ruudun_koko[1]/2, ruudun_koko[0], ruudun_koko[1]))
 
