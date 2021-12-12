@@ -41,7 +41,7 @@ class Peli:
         self.objektit = []
         self.objektit.append(Robotti())
         self.robotin_sijainti = self.objektit[0].hae_sijainti()
-        #self.objektit.append((Morko()))
+        self.objektit.append((Morko()))
         for i in range(10):
             self.objektit.append(Raha())
             self.objektit.append(Este())
