@@ -79,7 +79,11 @@ class Peli:
                 uusi_este = Este()
                 if self.onko_liike_alueella(uusi_este) == False:
                     self.objektit.append(uusi_este)
-            #self.objektit.append(Raha())
+
+            if sum(isinstance(objekti, Raha) for objekti in self.objektit) < 20:
+                uusi_raha = Raha()
+                if self.onko_liike_alueella(uusi_raha) == False:
+                    self.objektit.append(uusi_raha)
             self.kello.tick(60)
         while True:
             self.tutki_tapahtumat()
