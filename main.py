@@ -28,7 +28,7 @@ class Peli:
 
         self.naytto = pygame.display.set_mode((nayton_leveys, nayton_korkeus))
 
-        self.fontti = pygame.font.SysFont("Arial", 24)
+        self.fontti = pygame.font.SysFont("Arial", 26)
 
         pygame.display.set_caption("Pakoon")
 
@@ -158,8 +158,6 @@ class Peli:
             # Päivitetään Peliin tieto painetuista nuolinäppäimistä
             self.nuolinappaimet = (self.vasemmalle, self.ylos, self.oikealle, self.alas)
 
-
-
             if tapahtuma.type == pygame.QUIT:
                 exit()
 
@@ -192,10 +190,15 @@ class Peli:
         textsurface = self.fontti.render("Aika: "+str((pygame.time.get_ticks() - self.aloitus_aika)/1000), False, (255,0,0))
         self.naytto.blit(textsurface, (0,nayton_korkeus-30))
 
+
         if not self.peli_kaynnissa:
+            # Lopputekstit
             print("TRUE")
             ruudun_koko = (600, 300)
-            pygame.draw.rect(self.naytto, (255, 255, 255), pygame.Rect(nayton_leveys/2 - ruudun_koko[0]/2, nayton_korkeus/2 - ruudun_koko[1]/2, ruudun_koko[0], ruudun_koko[1]))
+            pygame.draw.rect(self.naytto, (255, 255, 255), pygame.Rect(nayton_leveys/2 - ruudun_koko[0]/2 - 10, nayton_korkeus/2 - ruudun_koko[1]/2 -10, ruudun_koko[0], ruudun_koko[1]))
+
+            textsurface = self.fontti.render(f"Törmäsit {self.lopetus_syy}!", False, (255, 0, 0))
+            self.naytto.blit(textsurface, (nayton_leveys/2 - ruudun_koko[0]/2, nayton_korkeus/2 - ruudun_koko[1]/2))
 
         pygame.display.flip()
 
