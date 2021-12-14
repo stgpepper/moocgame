@@ -1,6 +1,8 @@
 import random
 import pygame
 import math
+import sys
+import os
 
 # Määritellään muutamia koko ohjelman kannalta olennaisia muuttujia,
 # jotka eivät muutu pelin aikana.
@@ -9,6 +11,16 @@ nayton_korkeus = 800
 
 rajaus_alue_leveys = 100
 rajaus_alue_korkeus = 100
+
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
 
 class Peli:
 
@@ -85,7 +97,7 @@ class Peli:
                 if tapahtuma.key == pygame.K_RETURN:
                     self.uusi_peli()
                 if tapahtuma.key == pygame.K_ESCAPE:
-                    exit()
+                    sys.exit(0)
 
                 if tapahtuma.key == pygame.K_LEFT:
                     self.vasemmalle = True
@@ -111,7 +123,7 @@ class Peli:
             self.nuolinappaimet = (self.vasemmalle, self.ylos, self.oikealle, self.alas)
 
             if tapahtuma.type == pygame.QUIT:
-                exit()
+                sys.exit(0)
         if self.peli_kaynnissa:
             self.onko_tormays()
 
@@ -266,7 +278,7 @@ class Peli:
 class Robotti:
 
     def __init__(self):
-        self.kuva = pygame.image.load("robo.png")
+        self.kuva = pygame.image.load(resource_path("robo.png"))
         self.x = nayton_leveys / 2 - self.kuva.get_width()
         self.y = nayton_korkeus / 2 - self.kuva.get_height()
         self.hitbox = pygame.Rect(self.x + 6, self.y+1, self.kuva.get_width()-13, self.kuva.get_height()-2)
@@ -293,7 +305,7 @@ class Robotti:
 class Morko:
 
     def __init__(self):
-        self.kuva = pygame.image.load("hirvio.png")
+        self.kuva = pygame.image.load(resource_path("hirvio.png"))
         self.x = 0
         self.y = 0
         self.nopeus_x = 0.0
@@ -368,7 +380,7 @@ class TaustaObjekti:
 
 class Raha(TaustaObjekti):
     def __init__(self):
-        self.kuva = pygame.image.load("kolikko.png")
+        self.kuva = pygame.image.load(resource_path("kolikko.png"))
         self.x = random.randint(0, nayton_leveys)
         self.y = random.randint(0, nayton_korkeus)
         self.hitbox = pygame.Rect(self.x+2, self.y+2, self.kuva.get_width()-4, self.kuva.get_height()-4)
